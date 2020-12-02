@@ -750,7 +750,7 @@ class GTMManager(object):
     def handle_operation_create(self,gtm,partition,oldConfig,gtmConfig,opr_config):
         """ Handle create operation """
         if len(opr_config["pools"])>0 or len(opr_config["monitors"])>0 or len(opr_config["wideIPs"])>0:
-            if "wideIPs" in gtmConfig[partition]:
+            if partition in gtmConfig and "wideIPs" in gtmConfig[partition]:
                 if gtmConfig[partition]['wideIPs'] is not None:
                     for config in gtmConfig[partition]['wideIPs']:
                         monitor = ""
@@ -766,7 +766,7 @@ class GTMManager(object):
                                 self.delete_gtm_hm(gtm,partition,pool['name'],pool['monitor']['name'])
                                 self.create_HM(gtm, partition, pool['monitor'])
                             # Delete the old pool members
-                            if "wideIPs" in oldConfig[partition]:
+                            if partition in oldConfig and "wideIPs" in oldConfig[partition]:
                                 if oldConfig[partition]['wideIPs'] is not None:
                                     for oldConfig in oldConfig[partition]['wideIPs']:
                                         for oldPool in config['pools']:
